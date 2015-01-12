@@ -635,11 +635,22 @@ function tick(){
 }
 
 
+function Rectangle(x, y, xWidth, yHeight){
+	this.x = x;			//left
+	this.y = y;			//top
+	this.xWidth = xWidth;	//x + xWidth = right
+	this.yHeight = yHeight;	//y + yWidth = bottom
+}
 
+function _Point(x, y){
+	this.x = x;
+	this.y = y;
+}
 
-function ptInRect(x, y, xWidth, yHeight, ptX, ptY){
+//must pass rectangle object
+function PtInRect(rectangle, point){
 
-	if ( (((x + xWidth) >= ptX) && (x <= ptX)) && ( (y <= ptY) && ( (y + yHeight) >= ptY)) ) {
+	if ( (((rectangle.x + rectangle.xWidth) >= point.x) && (rectangle.x <= point.x)) && ( (rectangle.y <= point.y) && ( (rectangle.y + rectangle.yHeight) >= point.y)) ) {
 		return true;
 	}else {
 		return false;
@@ -647,4 +658,44 @@ function ptInRect(x, y, xWidth, yHeight, ptX, ptY){
 
 }
 
-function rectInRect()
+function rectInRect(rectangle1, rectangle2){
+
+	rectangle_top_left = new _Point( rectangle1.x, rectangle1.y );
+    rectangle_top_right = new _Point( rectangle1.x + rectangle1.xWidth, rectangle1.y );
+    rectangle_bot_left = new _Point( rectangle1.x, rectangle1.y + rectangle1.yHeight );
+    rectangle_bot_right = new _Point( rectangle1.x + rectangle1.xWidth, rectangle1.y + rectangle1.yHeight );
+
+    if(PtInRect(rectangle2 , rectangle_top_left)){
+        return true;
+    }else if(PtInRect(rectangle2, rectangle_top_right)){
+        return true;
+    }else if(PtInRect(rectangle2, rectangle_bot_left)){
+        return true;
+    }else if(PtInRect(rectangle2, rectangle_bot_right)){
+        return true;
+    }
+
+    rectangle_top_left.x = rectangle2.x;
+    rectangle_top_left.y = rectangle2.y;
+
+    rectangle_top_right.x = rectangle2.x + rectangle2.xWidth;
+    rectangle_top_right.y = rectangle2.y;
+
+    rectangle_bot_left.x = rectangle2.x;
+    rectangle_bot_left.y = rectangle2.y + rectangle2.yHeight;
+
+    rectangle_bot_right.x = rectangle2.x + rectangle2.xWidth;
+    rectangle_bot_right.y = rectangle2.y + rectangle2.yHeight;
+
+    if(PtInRect(rectangle1 , rectangle_top_left)){
+        return true;
+    }else if(PtInRect(rectangle1, rectangle_top_right)){
+        return true;
+    }else if(PtInRect(rectangle1, rectangle_bot_left)){
+        return true;
+    }else if(PtInRect(rectangle1, rectangle_bot_right)){
+        return true;
+    }else return false;
+
+
+}
