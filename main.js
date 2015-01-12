@@ -614,6 +614,15 @@ function keyup(event){
 	delete keys[event.keyCode];
 }
 
+var speed;
+var dX = 20;
+var dY = 20;
+
+var minSpeed = 4;
+
+var direction_dX = 1;
+var direction_dY = 1;
+var inverseFriction = .90;
 
 function tick(){
 
@@ -629,7 +638,22 @@ function tick(){
 		}else if (keys[68]) {
 			playerTwo.x += 3;
 		}
+		dX *= inverseFriction;
+		dY *= inverseFriction;
+		if (dY < 2) {
+			dY = 2;
+		}
+		if (dX < 2){
+			dX = 2;
+		}
+		gameSoccerBall.x += dX * direction_dX;
+		gameSoccerBall.y += dY * direction_dY;
+
+		console.log(dX)
 	}
+
+
+
 
 	stage.update();
 }
